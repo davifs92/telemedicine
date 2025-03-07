@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Informações do projeto pai -->
+    <groupId>com.telemedicine</groupId>
+    <artifactId>telemedicine-platform</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging> <!-- Tipo de empacotamento para projetos multi-módulo -->
+    <name>Telemedicine Platform</name>
+    <description>Parent POM for Telemedicine Platform</description>
+
+    <!-- Módulos do projeto -->
+    <modules>
+        <module>api-gateway</module>
+        <module>appointment-service</module>
+        <module>patient-service</module>
+        <module>video-service</module>
+        <module>notification-service</module>
+        <module>shared-libs</module>
+    </modules>
+
+    <!-- Propriedades globais -->
+    <properties>
+        <java.version>17</java.version>
+        <spring-boot.version>3.4.3</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <aws-sdk.version>1.12.400</aws-sdk.version>
+    </properties>
+
+    <!-- Gerenciamento de dependências (versões compartilhadas) -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot Starter Parent (gerencia versões do Spring) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- AWS SDK (para DynamoDB) -->
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-bom</artifactId>
+                <version>${aws-sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Repositórios -->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+        <!-- Repositório para Spring Data DynamoDB (se necessário) -->
+        <repository>
+            <id>dynamodb-local-oregon</id>
+            <name>DynamoDB Local Release Repository</name>
+            <url>https://s3-us-west-2.amazonaws.com/dynamodb-local/release</url>
+        </repository>
+    </repositories>
+
+    <!-- Plugins -->
+    <build>
+        <plugins>
+            <!-- Plugin para compilar com Java 17 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
